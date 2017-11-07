@@ -1,0 +1,41 @@
+# This is a basic configuration file for LXDock.
+# All configuration is done through this YML file that should be placed at the root of your project.
+# The file define a basic LXDock project containing a single container with highlights regarding
+# some other useful options.
+name: ansible-role-php
+
+containers:
+  - name: php-ubuntu-xenial
+    image: ubuntu/xenial
+    hostnames:
+      - xenial.ubuntu.test
+
+  - name: php-debian-stretch
+    image: debian/stretch
+    hostnames:
+      - stretch.debian.test
+
+provisioning:
+  - type: ansible
+    playbook: tests/test.yml
+# By default LXDock creates a single "default" container if you don't specify a "containers" option.
+# But you need the "containers" option if you have more than one container.
+
+# containers:
+#   - name: ansible-role-php01
+#   - name: ansible-role-php02
+#   - name: ansible-role-php03
+#     Most of the options can be redefined for each container definition, eg. the "image" option:
+#     image: archlinux
+
+# You can use the "provisioning" option to define provisioning tools that should be used to
+# provision your containers. For example, you could use Ansible as follows:
+# provisioning:
+#   - type: ansible
+#     playbook: deploy/site.yml
+
+# A common need is to access your project folder in your containers. To do this you can use the
+# "shares" option:
+# shares:
+#   - source: .
+#     dest: /myshare

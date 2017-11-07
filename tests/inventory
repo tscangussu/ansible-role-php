@@ -1,2 +1,4 @@
-localhost
-
+all:
+  - localhost
+  - xenial.ubuntu.test
+  - stretch.debian.test
