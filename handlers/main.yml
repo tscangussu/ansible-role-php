@@ -1,2 +1,14 @@
 ---
 # handlers file for ansible-role-php
+- name: "Start PHP-FPM"
+  service:
+    name: "{{ php_fpm_daemon }}"
+    state: started
+    enabled: yes
+  when: php_enable_php_fpm
+
+- name: "Restart PHP-FPM"
+  service:
+    name: "{{ php_fpm_daemon }}"
+    state: restarted
+  when: php_enable_php_fpm

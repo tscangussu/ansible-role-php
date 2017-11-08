@@ -1,0 +1,20 @@
+---
+- name: Place OpCache config file in place
+  template:
+    src: opcache.ini.j2
+    dest: "{{ item }}/{{ php_opcache_conf_filename }}"
+    owner: root
+    group: root
+    force: yes
+    mode: 0644
+  with_items: "{{ php_extension_conf_paths }}"
+  when: php_opcache_enable
+  notify: "Restart PHP-FPM"
+
+- name: Remove OpCache config file if OpCache is disabled.
+  file:
+    path: "{{ item }}/{{ php_opcache_conf_filename }}"
+    state: absent
+  with_items: "{{ php_extension_conf_paths }}"
+  when: not php_opcache_enable
+  notify: "Restart PHP-FPM"

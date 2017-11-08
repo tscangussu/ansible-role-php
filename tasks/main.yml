@@ -8,19 +8,31 @@
 - name: Define php_packages with PHP-FPM
   set_fact:
     php_packages: "{{ php_packages | list + php_fpm_package }}"
-  when: php_enable_php_fpm == true
+  when: php_enable_php_fpm
 
 - name: Define extra php_packages
   set_fact:
     php_packages: "{{ php_packages | list + php_packages_extra | list }}"
   when: php_packages_extra is defined
 
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 86400
+
 - name: Install PHP packages
   apt:
     name: "{{ item }}"
     state: "{{ php_packages_state }}"
     install_recommends: "{{ php_install_recommends }}"
-    update_cache: yes
-    cache_valid_time: 86400
   with_items: "{{ php_packages }}"
   register: php_package_install
+  notify: "Start PHP-FPM"
+
+- include_tasks: settings.yml
+
+- include_tasks: settings-opcache.yml
+  when: php_opcache_enable == "1"
+
+- include_tasks: settings-php-fpm.yml
+  when: php_enable_php_fpm

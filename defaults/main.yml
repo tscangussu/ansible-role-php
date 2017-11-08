@@ -31,4 +31,80 @@ php_base_packages:
   - php{{ php_version }}-mbstring
   - php{{ php_version }}-mysql
 
+# PHP config directories
+php_conf_paths:
+  - /etc/php/{{ php_version }}/fpm
+  - /etc/php/{{ php_version }}/cli
+
+php_extension_conf_paths:
+  - /etc/php/{{ php_version }}/fpm/conf.d
+  - /etc/php/{{ php_version }}/cli/conf.d
+
+php_opcache_conf_filename: 10-opcache.ini
+
+
+# PHP-FPM configuration.
 php_enable_php_fpm: true
+php_fpm_conf_path: "/etc/php/{{ php_version }}/fpm"
+php_fpm_pid: "/run/php/php7.0-fpm.pid"
+php_fpm_daemon: "php{{ php_version }}-fpm"
+
+# PHP-FPM Pool configuration
+php_fpm_pool_conf_path: "{{ php_fpm_conf_path }}/pool.d/www.conf"
+php_fpm_pool_user: www-data
+php_fpm_pool_group: www-data
+php_fpm_listen: "/run/php/php{{ php_version }}-fpm.sock"
+php_fpm_pm: dynamic
+php_fpm_pm_max_children: 12 # default 5
+php_fpm_pm_start_servers: 4 # default 2
+php_fpm_pm_min_spare_servers: 2 # default 1
+php_fpm_pm_max_spare_servers: 6 # default 3
+php_fpm_pm_max_requests: 500 # default unlimited
+
+
+# The executable to run when calling PHP from the command line.
+php_executable: "php"
+
+# OpCache settings.
+# All default
+php_opcache_zend_extension: "opcache.so"
+php_opcache_enable: "1"
+php_opcache_enable_cli: "0"
+php_opcache_memory_consumption: "64"
+php_opcache_interned_strings_buffer: "4"
+php_opcache_max_accelerated_files: "2000"
+php_opcache_max_wasted_percentage: "5"
+php_opcache_validate_timestamps: "1"
+php_opcache_revalidate_path: "0"
+php_opcache_revalidate_freq: "2"
+php_opcache_max_file_size: "0"
+
+# PHP settings (php.ini)
+php_expose_php: "Off" # default: Off
+php_memory_limit: "256M" # default 128M
+php_max_execution_time: "60" # default: 30
+php_max_input_time: "60" # default: 60
+php_max_input_vars: "1000" # default: 1000
+php_realpath_cache_size: "32K" # default: 4096k disabled
+
+php_file_uploads: "On" # default: On
+php_upload_max_filesize: "64M" # default: 2M
+php_max_file_uploads: "20" # default: 20
+
+php_post_max_size: "32M" # default: 8M
+php_date_timezone: "America/Chicago" # default: disabled
+php_allow_url_fopen: "On" # default: On
+
+php_sendmail_path: "/usr/sbin/sendmail -t -i" # default: disabled
+php_output_buffering: "4096" # default: 4096
+php_short_open_tag: "Off" # default: On
+
+php_session_cookie_lifetime: 0 # default: 0
+php_session_gc_probability: 1 # default: 0
+php_session_gc_divisor: 1000 # default: 1000
+php_session_gc_maxlifetime: 1440 # default: 1440
+php_session_save_handler: files # default: files
+
+php_error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT" # default: E_ALL for dev and e_all & ~E ... for prod
+php_display_errors: "Off" # default: Off
+php_display_startup_errors: "Off" # default: Off
