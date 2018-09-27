@@ -9,7 +9,7 @@ php_packages_state: installed
 php_install_recommends: no
 
 # Desired PHP version: 7.0, 7.1.
-php_version: "7.0"
+php_version: "7.2"
 
 # Minimal PHP packages to be installed.
 php_minimal_packages:
@@ -46,7 +46,7 @@ php_opcache_conf_filename: 10-opcache.ini
 # PHP-FPM configuration.
 php_enable_php_fpm: true
 php_fpm_conf_path: "/etc/php/{{ php_version }}/fpm"
-php_fpm_pid: "/run/php/php7.0-fpm.pid"
+php_fpm_pid: "/run/php/{{ php_version }}-fpm.pid"
 php_fpm_daemon: "php{{ php_version }}-fpm"
 
 # PHP-FPM Pool configuration
@@ -92,7 +92,7 @@ php_upload_max_filesize: "64M" # default: 2M
 php_max_file_uploads: "20" # default: 20
 
 php_post_max_size: "32M" # default: 8M
-php_date_timezone: "America/Chicago" # default: disabled
+php_date_timezone: "UTC" # default: disabled
 php_allow_url_fopen: "On" # default: On
 
 php_sendmail_path: "/usr/sbin/sendmail -t -i" # default: disabled

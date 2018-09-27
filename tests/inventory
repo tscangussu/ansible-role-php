@@ -1,4 +1,3 @@
 all:
   - localhost
-  - xenial.ubuntu.test
-  - stretch.debian.test
+  - bionic.php
